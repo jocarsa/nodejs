@@ -1,0 +1,1 @@
+db.formularios.deleteOne({asunto:"Este es el cuarto correo"});

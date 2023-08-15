@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <title>Chat</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <main>
+            <section id="mensajes">
+                Mensajes
+            </section>
+            <section>
+                <input type="text" id="mensaje">
+            </section>
+        </main>
+         <script>
+            document.getElementById("mensaje").onkeydown = function(e){
+                if(e.key == "Enter"){
+                    console.log("Has pulsado enter")
+                    var mensaje = this.value
+                    fetch("/envia?mensaje="+mensaje)
+                    document.getElementById("mensaje").value = ""
+                } 
+            }
+            var temporizador = setTimeout("recibe()",1000)
+            function recibe(){
+                console.log("recibo mensajes")
+                fetch("/recibe")
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(response){
+                    console.log(response)
+                    document.getElementById("mensajes").innerHTML = ""
+                    for(var i = 0;i<response.length;i++){
+                       document.getElementById("mensajes").innerHTML += response[i].mensaje+"<br>"
+                    }
+                })
+                clearTimeout(temporizador)
+                temporizador = setTimeout("recibe()",1000)
+            }
+        </script>
+    </body>
+</html>

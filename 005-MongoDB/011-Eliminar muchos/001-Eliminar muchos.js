@@ -1,0 +1,1 @@
+db.formularios.deleteMany({nombre:"Jose Vicente"});
